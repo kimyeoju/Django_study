@@ -22,3 +22,12 @@ class Post(models.Model):
     def message_length(self):
         return f'{len(self.message)} 글자'
     message_length.short_description = "메세지 글자수"
+    
+
+    # ForeignKey(to, on_delete=models.CASCADE) 1:N 관계 N측에서 작성 
+class Comment(models.Model):
+    # Post - post(pk) Comment - comment에 있는 post_pk
+    post = models.ForeignKey(Post, on_delete=models.CASCADE) # post_id 필드가 생성이 된다.
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
