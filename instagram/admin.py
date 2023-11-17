@@ -3,8 +3,6 @@ from django.utils.safestring import mark_safe # HTML을 안전하게 마크업
 from .models import Post
 
 # admin.site.register(Post)
-
-
 @admin.register(Post) # Wrapping
 class PostAdmin(admin.ModelAdmin):
     list_display = ['id', 'photo_tag', 'message', 'message_length', 'is_public', 'created_at','updated_at']
