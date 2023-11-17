@@ -13,6 +13,12 @@ class Post(models.Model):
         # return f"Custom Post object ({self.id})" -> Custom Post object (1)
         return self.message
     
+    # default 정렬
+    # python manage.py shell_plus --pring-sql
+    # Post.objects.all().order_by('created_at') order_by 지정 할 경우 default 정렬 적용되지 않음
+    class Meta:
+        ordering = ['-id']
+    
     def message_length(self):
         return f'{len(self.message)} 글자'
     message_length.short_description = "메세지 글자수"
