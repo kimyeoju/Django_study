@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe # HTML을 안전하게 마크업
-from .models import Post
+from .models import Post, Comment
 
 # admin.site.register(Post)
 @admin.register(Post) # Wrapping
@@ -17,3 +17,9 @@ class PostAdmin(admin.ModelAdmin):
     
     # def message_length(self, post): # admin은 post를 끌고옴
     #     return f'{len(post.message)} 글자'
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['message', 'created_at', 'updated_at']
+    list_display_links = ['message']

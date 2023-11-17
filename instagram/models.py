@@ -27,7 +27,12 @@ class Post(models.Model):
     # ForeignKey(to, on_delete=models.CASCADE) 1:N 관계 N측에서 작성 
 class Comment(models.Model):
     # Post - post(pk) Comment - comment에 있는 post_pk
-    post = models.ForeignKey(Post, on_delete=models.CASCADE) # post_id 필드가 생성이 된다.
+    # limit_choices_to : admin 페이지에서 공개여부가 true인 게시글만 보여줌
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,
+                             limit_choices_to={'is_public':True}) # post_id 필드가 생성이 된다.
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.message
