@@ -29,7 +29,7 @@ class Comment(models.Model):
     # Post - post(pk) Comment - comment에 있는 post_pk
     # limit_choices_to : admin 페이지에서 공개여부가 true인 게시글만 보여줌
     post = models.ForeignKey(Post, on_delete=models.CASCADE,
-                             limit_choices_to={'is_public':True}) # post_id 필드가 생성이 된다.
+                            limit_choices_to={'is_public':True}) # post_id 필드가 생성이 된다.
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
