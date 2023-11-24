@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe # HTML을 안전하게 마크업
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 
 # admin.site.register(Post)
 @admin.register(Post) # Wrapping
@@ -23,3 +23,8 @@ class PostAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['message', 'created_at', 'updated_at']
     list_display_links = ['message']
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    pass
