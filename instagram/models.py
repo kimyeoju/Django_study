@@ -5,6 +5,7 @@ class Post(models.Model):
     message = models.TextField() # self.first = first
     photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%m/%d')
     # instagram/post/2023/11/12/AnyConv.com__보안_해킹_아이콘_026.png로 저장
+    tag_set = models.ManyToManyField('Tag', blank=True)
     is_public = models.BooleanField(default=False, verbose_name='공개여부')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -36,3 +37,11 @@ class Comment(models.Model):
     
     def __str__(self):
         return self.message
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    # post_set = models.ManyToManyField(Post)
+    
+    def __str__(self):
+        return self.name
