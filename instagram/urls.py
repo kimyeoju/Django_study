@@ -18,6 +18,8 @@ class YearConverter:
 
 register_converter(YearConverter, 'converter_year')
 
+app_name = 'instagram' # URL Reverse에서 namespace 역할을 하게 된다.
+
 urlpatterns = [
     path('', views.post_list),
     path('<int:pk>/', views.post_detail),
