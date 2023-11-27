@@ -31,8 +31,25 @@ post_list = ListView.as_view(model=Post)
 #     })
 
 # 선택 3
-post_detail = DetailView.as_view(model=Post) 
+# post_detail = DetailView.as_view(
+#     model=Post,
+#     # 공개된 포스팅 안에서 디테일뷰를 처리 
+#     queryset=Post.objects.filter(is_public=True)
+#     )
 
+class PostDetailView(DetailView):
+    model = Post
+    
+    # queryset=Post.objects.filter(is_public=True)
+    def get_queryset(self):
+        
+        qs = super().get_queryset()
+        # 로그인이 되어있지 않다면 공개된 글만 보여줌
+        if not self.request.user.is_authenticated:
+            qs = qs.filter(is_public=True)
+        return qs
+
+post_detail = PostDetailView.as_view()
 
 def archives_year(request, year):
     return HttpResponse(f'{year}년 archives')
