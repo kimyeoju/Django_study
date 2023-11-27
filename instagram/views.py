@@ -1,6 +1,6 @@
-from django.views.generic import ListView
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from django.http import HttpResponse, HttpRequest, Http404
+from django.shortcuts import get_object_or_404, render
 from .models import Post
 
 post_list = ListView.as_view(model=Post)
@@ -16,12 +16,22 @@ post_list = ListView.as_view(model=Post)
 #     })
 
 
-def post_detail(request, pk):
-    response = HttpResponse()
-    response.write("Hello World")
-    response.write("Hello World")
-    response.write("Hello World")
-    return Response
+    # pk=pk에서 앞에 pk는 필드의 종류를 지정 뒤의 pk는 값
+# def post_detail(request, pk):
+# 선택 1 
+#     post = get_object_or_404(Post, pk=pk)
+# 선택 2
+#     # try:
+#     #     post = Post.objects.get(pk=pk) # DoesNotExist 예외
+#     # except Post.DoesNotExist:
+#     #     raise Http404
+    
+#     return render(request, 'instagram/post_detail.html', {
+#         'post': post,
+#     })
+
+# 선택 3
+post_detail = DetailView.as_view(model=Post) 
 
 
 def archives_year(request, year):
