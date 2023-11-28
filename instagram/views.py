@@ -3,7 +3,8 @@ from django.http import HttpResponse, HttpRequest, Http404
 from django.shortcuts import get_object_or_404, render
 from .models import Post
 
-post_list = ListView.as_view(model=Post)
+# ?page = 2 -> 하면 2페이지로 이동
+post_list = ListView.as_view(model=Post, paginate_by=10)
 
 # def post_list(request):
 #     qs = Post.objects.all()
