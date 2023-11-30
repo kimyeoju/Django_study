@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.dates import ArchiveIndexView
+from django.views.generic.dates import ArchiveIndexView, YearArchiveView
 from django.views.generic import ListView, DetailView
 from django.http import HttpResponse, HttpRequest, Http404
 from django.shortcuts import get_object_or_404, render
@@ -71,3 +71,5 @@ post_detail = PostDetailView.as_view()
 #     return HttpResponse(f'{year}년 archives')
 
 post_archive = ArchiveIndexView.as_view(model=Post, date_field='created_at', paginate_by=10)
+
+post_year_archive = YearArchiveView.as_view(model=Post, date_field='created_at', make_object_list=True)

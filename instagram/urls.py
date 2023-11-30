@@ -29,4 +29,5 @@ urlpatterns = [
     # re_path(r'archives/(?P<year>20\d{2})/', views.archives_year),
     # path('archives/<converter_year:year>/', views.archives_year),
     path('archive/', views.post_archive, name='post_archive'),
+    path('archive/<converter_year:year>/', views.post_year_archive, name='post_year_archive'),
 ]
