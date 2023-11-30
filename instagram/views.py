@@ -1,11 +1,25 @@
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.http import HttpResponse, HttpRequest, Http404
 from django.shortcuts import get_object_or_404, render
 from .models import Post
 
 # ?page = 2 -> 하면 2페이지로 이동
-post_list = ListView.as_view(model=Post, paginate_by=10)
+# decorator 장식 선택 1
+# post_list = login_required(ListView.as_view(model=Post, paginate_by=10))
 
+# decorator 장식 선택 2
+# @method_decorator(login_required, name='dispatch')
+# decorator 장식 선택 3
+class PostListView(LoginRequiredMixin, ListView):
+    model = Post
+    paginated_by = 10
+
+post_list = PostListView.as_view()
+
+# @login_required
 # def post_list(request):
 #     qs = Post.objects.all()
 #     q = request.GET.get('q', '')
