@@ -27,7 +27,13 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ post.message }}
+                        <!-- 선택 1 -->
+                        <!-- <a href="{% url 'instagram:post_detail' post.pk %}">
+                            {{ post.message }}
+                        </a> -->
+                        <a href="{{ post.get_absolute_url }}">
+                            {{ post.message }}
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
