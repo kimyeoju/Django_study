@@ -28,8 +28,7 @@ class Post(models.Model):
         return f'{len(self.message)} 글자'
     message_length.short_description = "메세지 글자수"
     
-
-    # ForeignKey(to, on_delete=models.CASCADE) 1:N 관계 N측에서 작성 
+    # ForeignKey(to, on_delete=models.CASCADE) 1:N 관계 N측에서 작성
 class Comment(models.Model):
     # Post - post(pk) Comment - comment에 있는 post_pk
     # limit_choices_to : admin 페이지에서 공개여부가 true인 게시글만 보여줌
