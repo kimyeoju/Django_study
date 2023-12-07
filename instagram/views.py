@@ -16,7 +16,7 @@ from .models import Post
 # decorator 장식 선택 3
 class PostListView(LoginRequiredMixin, ListView):
     model = Post
-    paginated_by = 10
+    paginate_by = 10
 
 post_list = PostListView.as_view()
 
