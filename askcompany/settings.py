@@ -65,6 +65,7 @@ ROOT_URLCONF = 'askcompany.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 템플릿 엔진이 템플릿 파일을 찾을 때 검색할 디렉토리들을 나타냄
         'DIRS': [
             # File System Template Loader
             os.path.join(BASE_DIR, 'askcompany', 'templates'),
@@ -130,6 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# collectstatic 명령 -> 복사하는 대상 디렉토리
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'askcompany', 'static'),
