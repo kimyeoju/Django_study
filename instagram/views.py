@@ -16,6 +16,7 @@ def post_new(request):
             post = form.save()
             # models에 get_absolute_url이 구현되어 있으니 detail 페이지로 자동으로 넘어감
             return redirect(post)
+    # Get 방식
     else:
         form = PostForm()
         
