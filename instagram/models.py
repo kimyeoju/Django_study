@@ -1,9 +1,16 @@
+from django.conf import settings
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.urls import reverse
 
-# Create your models here.
+# min_length_validator = MinLengthValidator(3) 
+
+
 class Post(models.Model):
-    message = models.TextField() # self.first = first
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    message = models.TextField(
+        validators=[MinLengthValidator(10)]
+        ) # self.first = first
     photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%m/%d')
     # instagram/post/2023/11/12/AnyConv.com__보안_해킹_아이콘_026.png로 저장
     tag_set = models.ManyToManyField('Tag', blank=True)
