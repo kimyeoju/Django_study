@@ -4,8 +4,25 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView
 from django.views.generic import ListView, DetailView
 from django.http import HttpResponse, HttpRequest, Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Post
+from .forms import PostForm
+
+
+def post_new(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save()
+            # models에 get_absolute_url이 구현되어 있으니 detail 페이지로 자동으로 넘어감
+            return redirect(post)
+    else:
+        form = PostForm()
+        
+    return render(request, 'instagram/post_form.html', {
+        'form' : form,
+    })
+
 
 # ?page = 2 -> 하면 2페이지로 이동
 # decorator 장식 선택 1

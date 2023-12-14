@@ -1,0 +1,10 @@
+
+<!-- 파일일 경우엔 entype을 꼭 기입 -->
+<form action="" method="post" entype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+        {{ form }}
+        <!-- form.as_table / form.as_ul 등을 쓸 수 있음 -->
+    </table>
+    <input type="submit" value="저장" />
+</form>
