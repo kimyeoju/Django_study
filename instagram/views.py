@@ -8,12 +8,17 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .models import Post
 from .forms import PostForm
 
-
+@login_required
 def post_new(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save()
+            # commit=False면 아직 저장이 안된 상태
+            post = form.save(commit=False)
+            post.author = request.user # 현재 로그인 User Instance
+            post.save()
+            
+            
             # post = form.save(commit=False)
             # post.save()
             # models에 get_absolute_url이 구현되어 있으니 detail 페이지로 자동으로 넘어감

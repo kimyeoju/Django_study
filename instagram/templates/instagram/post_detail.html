@@ -13,7 +13,7 @@
         </div>
     {% endif %}
 
-    {{ post.message }}
+    {{ post.message|linebreaks }}
     <hr/>
     <a href="{% url 'instagram:post_list' %}" class="btn btn-primary">
         목록
