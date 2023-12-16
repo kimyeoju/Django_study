@@ -31,8 +31,15 @@ def post_new(request):
         'form' : form,
     })
 
+
+@login_required
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    
+    # 작성자 Check Tip
+    if post.author != request.user:
+        messages.error(request,'작성자만 수정할 수 있습니다.')
+        return redirect(post)
     
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, instance=post)
