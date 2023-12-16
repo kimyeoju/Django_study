@@ -14,6 +14,8 @@ def post_new(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save()
+            # post = form.save(commit=False)
+            # post.save()
             # models에 get_absolute_url이 구현되어 있으니 detail 페이지로 자동으로 넘어감
             return redirect(post)
     # Get 방식
@@ -24,6 +26,8 @@ def post_new(request):
         'form' : form,
     })
 
+def post_edit(request, pk):
+    pass
 
 # ?page = 2 -> 하면 2페이지로 이동
 # decorator 장식 선택 1
