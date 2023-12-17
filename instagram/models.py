@@ -10,7 +10,7 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     message = models.TextField(
         validators=[MinLengthValidator(10)]
-        ) # self.first = first
+        )
     photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%m/%d')
     # instagram/post/2023/11/12/AnyConv.com__보안_해킹_아이콘_026.png로 저장
     tag_set = models.ManyToManyField('Tag', blank=True)
