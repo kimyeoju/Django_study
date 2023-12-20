@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,7 +18,7 @@ def post_new(request):
             post = form.save(commit=False)
             post.author = request.user # 현재 로그인 User Instance
             post.save()
-            
+            messages.success(request, '포스팅을 저장했습니다.')
             
             # post = form.save(commit=False)
             # post.save()
@@ -45,6 +46,7 @@ def post_edit(request, pk):
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save()
+            messages.success(request, '포스팅을 수정했습니다.')
             return redirect(post)
     # Get 방식
     else:
@@ -73,6 +75,10 @@ post_list = PostListView.as_view()
 #     q = request.GET.get('q', '')
 #     if q:
 #         qs = qs.filter(message__icontains=q)
+    
+#     # 등록만 해줌 소비는 template layout.html에서 해줌
+#     messages.info(request, 'messages 테스트')
+    
 #     return render(request, 'instagram/post_list.html', {
 #         'post_list': qs,
 #         'q':q,

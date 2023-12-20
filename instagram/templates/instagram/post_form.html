@@ -1,10 +1,20 @@
+{% extends 'instagram/layout.html' %}
 
+{% block content %}
 <!-- 파일일 경우엔 entype을 꼭 기입 -->
-<form action="" method="post" entype="multipart/form-data">
-    {% csrf_token %}
-    <table>
-        {{ form }}
-        <!-- form.as_table / form.as_ul 등을 쓸 수 있음 -->
-    </table>
-    <input type="submit" value="저장" />
-</form>
+    <form action="" method="post" entype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {{ form }}
+            <!-- form.as_table / form.as_ul 등을 쓸 수 있음 -->
+        </table>
+        <input type="submit" value="저장" />
+    </form>
+    <hr/>
+    {% if form.instance %}
+        <a href="{{ form.instance.get_absolute_url }}" class="btn btn-secondary">
+            내용으로
+        </a>
+    {% endif %}
+    <a href="{% url 'instagram:post_list' %}" class="btn btn-primary">목록</a>
+{% endblock %}
