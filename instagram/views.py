@@ -30,6 +30,7 @@ def post_new(request):
         
     return render(request, 'instagram/post_form.html', {
         'form' : form,
+        'post' : None,
     })
 
 
@@ -54,6 +55,8 @@ def post_edit(request, pk):
         
     return render(request, 'instagram/post_form.html', {
         'form' : form,
+        # edit시에는 해당 post를 넘김
+        'post' : post,
     })
 
 # ?page = 2 -> 하면 2페이지로 이동
