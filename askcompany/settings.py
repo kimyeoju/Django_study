@@ -151,7 +151,6 @@ INTERNAL_IPS = ['127.0.0.1',]
 
 from django.contrib.messages import constants as messages_constants
 
-
 MESSAGE_TAGS = {
     messages_constants.DEBUG: 'secondary',
     messages_constants.ERROR: 'danger',
