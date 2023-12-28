@@ -26,6 +26,7 @@ def post_new(request):
             return redirect(post)
     # Get 방식
     else:
+        # Get 방식이니까 빈 form을 보여줌
         form = PostForm()
         
     return render(request, 'instagram/post_form.html', {
@@ -77,6 +78,7 @@ post_list = PostListView.as_view()
 #     qs = Post.objects.all()
 #     q = request.GET.get('q', '')
 #     if q:
+# Post.objects.all()에 filter을 써서 사용자가 쓴 검색어 q를 대입해서 검색 구현
 #         qs = qs.filter(message__icontains=q)
     
 #     # 등록만 해줌 소비는 template layout.html에서 해줌
@@ -113,6 +115,7 @@ class PostDetailView(DetailView):
     model = Post
     
     # queryset=Post.objects.filter(is_public=True)
+    # get_queryset은 DetailView의 메서드
     def get_queryset(self):
         
         qs = super().get_queryset()
