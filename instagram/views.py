@@ -60,6 +60,12 @@ def post_edit(request, pk):
         'post' : post,
     })
 
+
+@login_required
+def post_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    
 # ?page = 2 -> 하면 2페이지로 이동
 # decorator 장식 선택 1
 # post_list = login_required(ListView.as_view(model=Post, paginate_by=10))
@@ -67,6 +73,8 @@ def post_edit(request, pk):
 # decorator 장식 선택 2
 # @method_decorator(login_required, name='dispatch')
 # decorator 장식 선택 3
+
+    
 class PostListView(LoginRequiredMixin, ListView):
     model = Post
     paginate_by = 10
@@ -118,6 +126,7 @@ class PostDetailView(DetailView):
     # get_queryset은 DetailView의 메서드
     def get_queryset(self):
         
+        # 기본 쿼리셋을 가져옴
         qs = super().get_queryset()
         # 로그인이 되어있지 않다면 공개된 글만 보여줌
         if not self.request.user.is_authenticated:
