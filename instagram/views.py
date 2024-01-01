@@ -3,36 +3,50 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.http import HttpResponse, HttpRequest, Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Post
 from .forms import PostForm
 
-@login_required
-def post_new(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
+# @login_required
+# def post_new(request):
+    # if request.method == 'POST':
+        # form = PostForm(request.POST, request.FILES)
+        # if form.is_valid():
             # commit=False면 아직 저장이 안된 상태
-            post = form.save(commit=False)
-            post.author = request.user # 현재 로그인 User Instance
-            post.save()
-            messages.success(request, '포스팅을 저장했습니다.')
+            # post = form.save(commit=False)
+            # post.author = request.user 
+            # 현재 로그인 User Instance
+            # post.save()
+            # messages.success(request, '포스팅을 저장했습니다.')
             
             # post = form.save(commit=False)
             # post.save()
             # models에 get_absolute_url이 구현되어 있으니 detail 페이지로 자동으로 넘어감
-            return redirect(post)
+            # return redirect(post)
     # Get 방식
-    else:
+    # else:
         # Get 방식이니까 빈 form을 보여줌
-        form = PostForm()
+    #     form = PostForm()
         
-    return render(request, 'instagram/post_form.html', {
-        'form' : form,
-        'post' : None,
-    })
+    # return render(request, 'instagram/post_form.html', {
+    #     'form' : form,
+    #     'post' : None,
+    # })
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        messages.success(self.request, '포스팅을 저장했습니다.')
+        return super().form_valid(form)
+        
+post_new = PostCreateView.as_view()
 
 
 @login_required
@@ -81,7 +95,7 @@ def post_delete(request, pk):
 # @method_decorator(login_required, name='dispatch')
 # decorator 장식 선택 3
 
-    
+
 class PostListView(LoginRequiredMixin, ListView):
     model = Post
     paginate_by = 10
