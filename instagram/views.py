@@ -2,8 +2,9 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse, reverse_lazy
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponse, HttpRequest, Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Post
@@ -87,16 +88,28 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 post_edit = PostUpdateView.as_view()
 
 
-@login_required
-def post_delete(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        post.delete()
-        messages.success(request, '포스팅을 삭제했습니다.')
-        return redirect('instagram:post_list')
-    return render(request, 'instagram/post_confirm_delete.html', {
-        'post': post,
-    })
+# @login_required
+# def post_delete(request, pk):
+#     post = get_object_or_404(Post, pk=pk)
+#     if request.method == 'POST':
+#         post.delete()
+#         messages.success(request, '포스팅을 삭제했습니다.')
+#         return redirect('instagram:post_list')
+#     return render(request, 'instagram/post_confirm_delete.html', {
+#         'post': post,
+#     })
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Post
+    # reverse_lazy는 success_url이 수행되지 않고 success_url이 사용될때 수행됨
+    success_url = reverse_lazy('instagram:post_list')
+    # success_url = reverse('instagram:post_list') -> 이건 오류가뜸
+    
+    # def get_success_url(self):
+    #     return reverse('instagram:post_list')
+
+
+post_delete = PostDeleteView.as_view()
     
     
 # ?page = 2 -> 하면 2페이지로 이동
