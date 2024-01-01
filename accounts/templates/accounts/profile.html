@@ -1,0 +1,9 @@
+{% extends "accounts/layout.html" %}
+
+{% block content %}
+    <!-- user : 
+        - 로그인 : User 모델 인스턴스
+        - 로그아웃 : AnonymousUser(파이썬 클래스) 인스턴스 -->
+    <h2>User : {{ user }}</h2>
+    {{ user.is_authenticated }}
+{% endblock content %}
