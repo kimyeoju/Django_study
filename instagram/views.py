@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.http import HttpResponse, HttpRequest, Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Post
@@ -49,30 +49,42 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 post_new = PostCreateView.as_view()
 
 
-@login_required
-def post_edit(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+# @login_required
+# def post_edit(request, pk):
+    # post = get_object_or_404(Post, pk=pk)
     
     # 작성자 Check Tip
-    if post.author != request.user:
-        messages.error(request,'작성자만 수정할 수 있습니다.')
-        return redirect(post)
+    # if post.author != request.user:
+    #     messages.error(request,'작성자만 수정할 수 있습니다.')
+    #     return redirect(post)
     
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES, instance=post)
-        if form.is_valid():
-            post = form.save()
-            messages.success(request, '포스팅을 수정했습니다.')
-            return redirect(post)
+    # if request.method == 'POST':
+    #     form = PostForm(request.POST, request.FILES, instance=post)
+    #     if form.is_valid():
+    #         post = form.save()
+    #         messages.success(request, '포스팅을 수정했습니다.')
+    #         return redirect(post)
     # Get 방식
-    else:
-        form = PostForm(instance=post)
+    # else:
+    #     form = PostForm(instance=post)
         
-    return render(request, 'instagram/post_form.html', {
-        'form' : form,
-        # edit시에는 해당 post를 넘김
-        'post' : post,
-    })
+    # return render(request, 'instagram/post_form.html', {
+    #     'form' : form,
+    #     edit시에는 해당 post를 넘김
+    #     'post' : post,
+    # })
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    
+    def form_valid(self, form):
+        messages.success(self.request, '포스팅을 수정했습니다.')
+        # form_valid의 부모 클래스 updateview의 form_valid 메서드를 호출. 그리고 괄호 안에 있는 form은 현재 뷰에서 전달받은 폼 객체
+        return super().form_valid(form)
+
+post_edit = PostUpdateView.as_view()
 
 
 @login_required
