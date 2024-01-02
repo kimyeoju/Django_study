@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -56,12 +56,33 @@ def profile_edit(request):
     })
 
 
-signup = CreateView.as_view(
-    model=User,
-    form_class=UserCreationForm,
-    success_url=settings.LOGIN_URL,
-    template_name='accounts/signup_form.html'
-)
+# 선택 1
+class SignupView(CreateView):
+    model = User
+    form_class = UserCreationForm
+    success_url = settings.LOGIN_URL
+    template_name = 'accounts/signup_form.html'
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # 현재 뷰에서 처리 중인 객체를 나타냄 UserCreationForm을 통해 새로 등록한 사용자를 나타냄
+        user = self.object
+        # 사용자를 로그인 상태로 만들어주는 함수 auth_login(self.request(현재 요청 객체 -> 현재 요청에 관한 정보에 접근), user(로그인 할 사용자 객체))
+        # 즉, 새로 생성된 사용자를 현재 요청에 로그인 시키는 것 이는 사용자가 회원가입을 완료한 후에 로그인 상태로 애플리케이션을 계속 사용할 수 있도록 해줌
+        auth_login(self.request, user)
+        return response
+
+
+signup = SignupView.as_view()
+
+
+# 선택 2
+# signup = CreateView.as_view(
+#     model=User,
+#     form_class=UserCreationForm,
+#     success_url=settings.LOGIN_URL,
+#     template_name='accounts/signup_form.html'
+# )
 
 
 def logout(request):
