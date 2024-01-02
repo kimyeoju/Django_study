@@ -60,7 +60,7 @@ def profile_edit(request):
 class SignupView(CreateView):
     model = User
     form_class = UserCreationForm
-    success_url = settings.LOGIN_URL
+    success_url = settings.LOGIN_REDIRECT_URL
     template_name = 'accounts/signup_form.html'
     
     def form_valid(self, form):
