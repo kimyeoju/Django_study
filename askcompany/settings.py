@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse, reverse_lazy
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -113,6 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# 로그아웃 리다이렉트 url을 하면 주소창에 'account/logout'만 해도 장고 로그아웃이 아니라 로그인 페이지로 넘어감
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
 
 # Internationalization
